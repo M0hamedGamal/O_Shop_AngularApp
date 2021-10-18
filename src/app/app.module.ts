@@ -59,7 +59,7 @@ import { CustomFormsModule } from 'ng2-validation';
     RouterModule.forRoot([
       {
         path: '',
-        component: HomeComponent,
+        component: ProductsComponent,
       },
       {
         path: 'products',

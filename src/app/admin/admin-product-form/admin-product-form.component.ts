@@ -25,7 +25,7 @@ export class AdminProductFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.categories$ = this.categoryService.getCategories();
+    this.categories$ = this.categoryService.getAll().snapshotChanges();
     this.id = this.route.snapshot.paramMap.get('id');
 
     if (this.id)
