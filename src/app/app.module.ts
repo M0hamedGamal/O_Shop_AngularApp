@@ -27,6 +27,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { AuthGuard } from './services/auth-guard/auth-guard.service';
 import { FormsModule } from '@angular/forms';
 import { CustomFormsModule } from 'ng2-validation';
+import { ProductFilterComponent } from './products/product-filter/product-filter.component';
+import { ProductCardComponent } from './product-card/product-card.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { CustomFormsModule } from 'ng2-validation';
     AdminProductsComponent,
     AdminProductFormComponent,
     AdminOrdersComponent,
+    ProductFilterComponent,
+    ProductCardComponent,
   ],
   imports: [
     BrowserModule,

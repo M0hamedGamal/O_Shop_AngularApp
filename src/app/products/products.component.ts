@@ -2,10 +2,7 @@ import { ProductService } from './../services/product/product.service';
 import { Product } from './../models/product';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { CategoryService } from '../services/category/category.service';
-import { Category } from '../models/category';
-import { SnapshotAction } from '@angular/fire/database';
+import { switchMap } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -13,22 +10,22 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css'],
 })
-export class ProductsComponent {
+export class ProductsComponent implements OnInit {
   products: Product[] = [];
   filteredProducts: Product[] = [];
-  categories$: Observable<SnapshotAction<Category>[]>;
   category: string;
 
   constructor(
     private route: ActivatedRoute,
-    private productService: ProductService,
-    private categoryService: CategoryService
-  ) {
-    (productService.getAll().valueChanges() as Observable<Product[]>)
+    private productService: ProductService
+  ) {}
+
+  ngOnInit(): void {
+    (this.productService.getAll().valueChanges() as Observable<Product[]>)
       .pipe(
         switchMap((prds: Product[]) => {
           this.products = prds;
-          return route.queryParamMap;
+          return this.route.queryParamMap;
         })
       )
       .subscribe((params) => {
@@ -38,9 +35,5 @@ export class ProductsComponent {
           ? this.products.filter((p: Product) => p.category == this.category)
           : this.products;
       });
-
-    this.categories$ = categoryService.getAll().snapshotChanges() as Observable<
-      SnapshotAction<Category>[]
-    >;
   }
 }
