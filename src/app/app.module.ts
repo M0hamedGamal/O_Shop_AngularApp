@@ -1,3 +1,5 @@
+import { ShoppingCartService } from './services/shopping-cart/shopping-cart.service';
+import { ProductService } from './services/product/product.service';
 import { CategoryService } from './services/category/category.service';
 import { AdminProductFormComponent } from './admin/admin-product-form/admin-product-form.component';
 import { AdminAuthGuard } from './services/admin-auth-guard/admin-auth-guard.service';
@@ -29,6 +31,7 @@ import { FormsModule } from '@angular/forms';
 import { CustomFormsModule } from 'ng2-validation';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component';
 import { ProductCardComponent } from './product-card/product-card.component';
+ShoppingCartService;
 
 @NgModule({
   declarations: [
@@ -120,6 +123,8 @@ import { ProductCardComponent } from './product-card/product-card.component';
     AdminAuthGuard,
     UserService,
     CategoryService,
+    ProductService,
+    ShoppingCartService,
   ],
   bootstrap: [AppComponent],
 })
