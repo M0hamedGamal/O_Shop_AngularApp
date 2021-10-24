@@ -15,10 +15,15 @@ export class ProductCardComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  addToCart(product) {
-    console.log(this.shoppingCart);
+  addToCart() {
+    this.cartService.addToCart(this.product);
 
-    this.cartService.addToCart(product);
+    console.log(this.shoppingCart);
+  }
+  removeFromCart() {
+    this.cartService.removeFromCart(this.product);
+
+    console.log(this.shoppingCart);
   }
 
   getQuantity(): number {

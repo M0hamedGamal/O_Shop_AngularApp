@@ -14,7 +14,7 @@
   <div class="card-footer d-grid" *ngIf="showActions">
     <button
       class="btn btn-secondary"
-      (click)="addToCart(product)"
+      (click)="addToCart()"
       *ngIf="getQuantity() === 0; else updateQuantity"
     >
       Add to Cart
@@ -22,13 +22,15 @@
     <ng-template #updateQuantity>
       <div class="row gx-2">
         <div class="col-2">
-          <button class="btn btn-secondary">-</button>
+          <button (click)="removeFromCart()" class="btn btn-secondary">
+            -
+          </button>
         </div>
         <div class="col text-center">
           <span>{{ getQuantity() }} in cart</span>
         </div>
         <div class="col-2">
-          <button class="btn btn-secondary">+</button>
+          <button (click)="addToCart()" class="btn btn-secondary">+</button>
         </div>
       </div>
     </ng-template>
