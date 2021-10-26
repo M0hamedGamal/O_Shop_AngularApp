@@ -17,20 +17,5 @@ export class ProductCardComponent implements OnInit {
 
   addToCart() {
     this.cartService.addToCart(this.product);
-
-    console.log(this.shoppingCart);
-  }
-  removeFromCart() {
-    this.cartService.removeFromCart(this.product);
-
-    console.log(this.shoppingCart);
-  }
-
-  getQuantity(): number {
-    if (!this.shoppingCart) return 0;
-
-    let item = this.shoppingCart.items[this.product.title];
-
-    return item ? item.quantity : 0;
   }
 }
