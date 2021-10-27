@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Product } from './../../models/product';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { Injectable } from '@angular/core';
+import { ShoppingCartItem } from 'src/app/models/shopping-cart-item';
 
 @Injectable({
   providedIn: 'root',
@@ -11,18 +12,32 @@ import { Injectable } from '@angular/core';
 export class ShoppingCartService {
   constructor(private db: AngularFireDatabase) {}
 
-  private create() {
-    return this.db.list('/shopping-carts').push({
-      createdDate: new Date().getTime(),
-    });
-  }
-
   async getCart(): Promise<Observable<ShoppingCart>> {
     let cartId = await this.getOrCreateCartId();
     return this.db
       .object('/shopping-carts/' + cartId)
       .valueChanges()
       .pipe(map((cart: ShoppingCart) => new ShoppingCart(cart.items)));
+  }
+
+  private create() {
+    return this.db.list('/shopping-carts').push({
+      createdDate: new Date().getTime(),
+    });
+  }
+
+  async addToCart(product: Product) {
+    this.updateItem(product, 1);
+  }
+
+  async removeFromCart(product: Product) {
+    this.updateItem(product, -1);
+  }
+
+  async clearCart() {
+    let cartId = await this.getOrCreateCartId();
+
+    this.db.object('/shopping-carts/' + cartId + '/items').remove();
   }
 
   private getItem(cartId: string, productId: string) {
@@ -39,24 +54,20 @@ export class ShoppingCartService {
     return result.key;
   }
 
-  addToCart(product: Product) {
-    this.updateQuantity(product, 1);
-  }
-
-  removeFromCart(product: Product) {
-    this.updateQuantity(product, -1);
-  }
-
-  private async updateQuantity(product: Product, change: number) {
+  private async updateItem(product: Product, change: number) {
     let cartId = await this.getOrCreateCartId();
     let getItem = this.getItem(cartId, product.title);
-    let item$ = getItem.valueChanges() as Observable<any>;
+    let item$ = getItem.valueChanges() as Observable<ShoppingCartItem>;
 
     item$.pipe(take(1)).subscribe((item) => {
-      getItem.update({
-        product: product,
-        quantity: (item ? item.quantity : 0) + change,
-      });
+      let quantity = (item ? item.quantity : 0) + change;
+
+      quantity === 0
+        ? getItem.remove()
+        : getItem.update({
+            product: product,
+            quantity: quantity,
+          });
     });
   }
 }

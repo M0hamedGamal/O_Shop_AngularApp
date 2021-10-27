@@ -3,7 +3,8 @@ import { ShoppingCartItem } from './shopping-cart-item';
 
 export class ShoppingCart {
   public items: ShoppingCartItem[] = [];
-  constructor(public itemsMap: ShoppingCartItem[]) {
+
+  constructor(private itemsMap: ShoppingCartItem[] = []) {
     for (let productId in itemsMap) {
       let item = itemsMap[productId];
       this.items.push(new ShoppingCartItem(item.product, item.quantity));
