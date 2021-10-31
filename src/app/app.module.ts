@@ -32,6 +32,7 @@ import { CustomFormsModule } from 'ng2-validation';
 import { ProductFilterComponent } from './products/product-filter/product-filter.component';
 import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
+import { OrderService } from './services/order/order.service';
 ShoppingCartService;
 
 @NgModule({
@@ -88,12 +89,12 @@ ShoppingCartService;
         canActivate: [AuthGuard],
       },
       {
-        path: 'order/success',
+        path: 'order-success/:id',
         component: OrderSuccessComponent,
         canActivate: [AuthGuard],
       },
       {
-        path: 'my/orders',
+        path: 'my-orders',
         component: MyOrdersComponent,
         canActivate: [AuthGuard],
       },
@@ -127,6 +128,7 @@ ShoppingCartService;
     CategoryService,
     ProductService,
     ShoppingCartService,
+    OrderService,
   ],
   bootstrap: [AppComponent],
 })
