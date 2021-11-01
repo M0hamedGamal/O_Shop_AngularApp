@@ -9,8 +9,9 @@ import { OrderService } from 'src/app/services/order/order.service';
 export class AdminOrdersComponent implements OnInit {
   orders$;
 
-  constructor(private orderService: OrderService) {
-    this.orders$ = orderService.getOrders().valueChanges();
+  constructor(private orderService: OrderService) {}
+
+  ngOnInit(): void {
+    this.orders$ = this.orderService.getOrders().valueChanges();
   }
-  ngOnInit(): void {}
 }
